@@ -9281,7 +9281,7 @@ function LocationHtml5Url(appBase, basePrefix) {
   this.$$rewrite = function(url) {
     var appUrl, prevAppUrl;
 
-    if ( (appUrl = beginsWith(appBase, url)) !== undefined ) {
+    if ( (appUrl = (beginsWith(appBase, url) || beginsWith(appBase.replace(/\/$/, ''), url))) !== undefined ) {
       prevAppUrl = appUrl;
       if ( (appUrl = beginsWith(basePrefix, appUrl)) !== undefined ) {
         return appBaseNoFile + (beginsWith('/', appUrl) || appUrl);
@@ -9318,7 +9318,7 @@ function LocationHashbangUrl(appBase, hashPrefix) {
    * @private
    */
   this.$$parse = function(url) {
-    var withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url);
+    var withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBase.replace(/\/$/, '')) || beginsWith(appBaseNoFile, url);
     var withoutHashUrl = withoutBaseUrl.charAt(0) == '#'
         ? beginsWith(hashPrefix, withoutBaseUrl)
         : (this.$$html5)
