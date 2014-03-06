@@ -8834,7 +8834,7 @@ function LocationHashbangUrl(appBase, hashPrefix) {
    * @private
    */
   this.$$parse = function(url) {
-    var withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBase.replace(/\/$/, '')) || beginsWith(appBaseNoFile, url);
+    var withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url);
     var withoutHashUrl = withoutBaseUrl.charAt(0) == '#'
         ? beginsWith(hashPrefix, withoutBaseUrl)
         : (this.$$html5)
@@ -8929,7 +8929,7 @@ function LocationHashbangInHtml5Url(appBase, hashPrefix) {
 
     if ( appBase == stripHash(url) ) {
       return url;
-    } else if ( (appUrl = beginsWith(appBaseNoFile, url)) ) {
+    } else if ( (appUrl = beginsWith(appBaseNoFile, url) || beginsWith(appBaseNoFile.replace(/\/$/, ''), url)) ) {
       return appBase + hashPrefix + appUrl;
     } else if ( appBaseNoFile === url + '/') {
       return appBaseNoFile;
